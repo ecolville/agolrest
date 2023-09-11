@@ -23,9 +23,11 @@
       basemap: "arcgis-topographic" //basemap layer
     });
 
+    //sets the initial center point of the view ot long/lat coordinates
+    //lon/lat will be projected to match the spatial referenceof the view
     const view = new MapView({
       map: map,
-      center: [-97.7431, 30.2672], // Longitude, latitude
+      center: [-89.6301, 44.9591], // Longitude, latitude
       zoom: 13, // Zoom level
       container: "viewDiv" // Div element
     });
