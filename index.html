@@ -1,12 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Hello, world!</title>
+  <title>Hello, map!</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
+
+  <!--calls for the arcgis api's CSS file and JS library-->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+
+  <!--adding the modules needd for a full screen map app-->
+<script>
+  require([
+    "esri/config", 
+    "esri/Map", 
+    "esri/views/MapView"
+  ], function(esriConfig, Map, MapView) {
+
+    esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
+    const map = new Map({
+      basemap: "arcgis-topographic" //basemap layer
+    });
+
+    const view = new MapView({
+      map: map,
+      center: [-97.7431, 30.2672], // Longitude, latitude
+      zoom: 13, // Zoom level
+      container: "viewDiv" // Div element
+    });
+  });
+</script>
+
+  <!--css to make a full screen map-->
+  <style>  
+    html, 
+    body,  
+    #viewDiv {  
+      padding: 0;  
+      margin: 0;  
+      height: 100%;  
+      width: 100%;  
+   }  
+  </style> 
+
 </head>
 <body>
-  <h1>Hello, world! I will be using Git!</h1>
+<!--the div that displays the map-->
+<div id="viewDiv"></div>
 </body>
 </html>
