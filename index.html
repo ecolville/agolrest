@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Hello, map!</title>
+  <title>Hello, Map!</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
@@ -10,48 +10,56 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
 
-  <!--adding the modules needd for a full screen map app-->
-<script>
-  require([
-    "esri/config", 
-    "esri/Map", 
-    "esri/views/MapView",
-    "esri/widgets/BasemapGallery"
-  ], function(esriConfig, Map, MapView, BasemapGallery) {
+  <!--adding the modules needed for a full screen map app-->
+  <script>
+    require([
+      "esri/config", 
+      "esri/Map", 
+      "esri/views/MapView",
+      "esri/widgets/BasemapGallery",
+      "esri/widgets/Locate",
+      "esri/widgets/Search",
+      "esri/widgets/Expand"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
 
-    esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
-    const map = new Map({
-      basemap: "osm-light-grey" //basemap layer
-    });
+      esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
+      const map = new Map({
+        basemap: "osm-light-grey" //basemap layer
+      });
 
-    //view of Kangerlussuak, Greenland
-    const view = new MapView({
-      map:map,
-      center: [-50.7212, 67.0095], // Longitude, latitude 
-      zoom: 9, // Zoom level
-      container: "viewDiv" //Div element
-    });
+      //view of Kangerlussuak, Greenland
+      const view = new MapView({
+        map:map,
+        center: [-50.7212, 67.0095], // Longitude, latitude 
+        zoom: 9, // Zoom level
+        container: "viewDiv" //Div element
+      });
 
-    //Expand widget for basemap gallery
-    const bgExpand = new Expand({
-      view: view,
-      content: new BasemapGallery({
+      //Expand widget for basemap gallery
+      const bgExpand = new Expand({
+        view: view,
+        content: new BasemapGallery({
+          view: view
+        })
+      });
+      view.ui.add(bgExpand, "top-right");
+
+      //Create a Locate widget instance and add it to the view
+      const locate = new Locate({
         view: view
-      })
-    });
-    view.ui.add(bgExpand, "top-right");
+      });
+      view.ui.add(locate,"top-left");
 
-  });
-
-    //sets the initial center point of the view ot long/lat coordinates
-    //lon/lat will be projected to match the spatial referenceof the view
-    const view = new MapView({
-      map: map,
-      
-      
-      container: "viewDiv" // Div element
+      //Create a Search widget instance and add it to the view
+      const searchWidget = new Search({
+        view: view
+      });
+      view.ui.add(searchWidget, {
+        position: "top-left",
+        index: 2
+      });
     });
-  });
+
 </script>
 
   <!--css to make a full screen map-->
