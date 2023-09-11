@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
 
-  <!--adding the modules needed for a full screen map app-->
+  <!--adding the modules, API, and map constant needed for a full screen map app-->
   <script>
     require([
       "esri/config", 
@@ -24,12 +24,12 @@
 
       esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
       const map = new Map({
-        basemap: "osm-light-grey" //basemap layer
+        basemap: "arcgis-imagery" //basemap layer
       });
 
       //view of Kangerlussuak, Greenland
       const view = new MapView({
-        map:map,
+        map: map,
         center: [-50.7212, 67.0095], // Longitude, latitude 
         zoom: 9, // Zoom level
         container: "viewDiv" //Div element
@@ -48,7 +48,7 @@
       const locate = new Locate({
         view: view
       });
-      view.ui.add(locate,"top-left");
+      view.ui.add(locate, "top-left");
 
       //Create a Search widget instance and add it to the view
       const searchWidget = new Search({
