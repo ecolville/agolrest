@@ -21,8 +21,10 @@
       "esri/widgets/Search",
       "esri/widgets/Expand",
       "esri/Graphic",  
-      "esri/layers/GraphicsLayer"   
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer) {
+      "esri/layers/GraphicsLayer", 
+      "esri/geometry/Polyline",
+      "esri/geometry/Polygon" 
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon) {
 
       esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
       const map = new Map({
@@ -44,17 +46,22 @@
       //defining the geometry of the point
       const point = { //Create a point  
         type: "point",  
-        longitude: -97.750689,    //long lat of Stevie Ray Vaughan Statue
-        latitude: 30.263098
+        longitude: -89.6445,    //long lat of UWSP at Wausau
+        latitude: 44.9583
       };
+
+      //defining the geometry of the polyline
+      const line = 
+        type: 
+      }
 
       //defining the marker style
       const simpleMarkerSymbol = {  
         type: "simple-marker",  
-        color: [0, 0, 139],  // Color of blues rock
+        color: [81, 38, 1153],  // Color of UWSP purple
         style: "triangle",
         outline: {  
-          color: [255, 255, 255], // White  
+          color: [255, 200, 46], // Color of UWSP yellow  
           width: 1
         }  
       };
@@ -65,23 +72,108 @@
         content: "{Description}"
        }
       const attributes = {
-        Name: "Stevie Ray Vaughan Statue",
-        Description: "A bronze sculpture of Stevie Ray Vaughan by Ralph Helmick"
+        Name: " University of Wisconsin-Stevens Point at Wausau",
+        Description: "This is where I work!"
       }
 
       //creating the point
       const pointGraphic = new Graphic({  
         geometry: point,  
         symbol: simpleMarkerSymbol,
-
         //adding popup properties
         attributes: attributes,
         popupTemplate: popupTemplate
-
       });
 
       //adding the point to the graphics Layer
       graphicsLayer.add(pointGraphic);
+
+      //Define the path of the trail as an array of points
+      const lunchPath = [
+        [-89.6445, 44.9583], //UWSP at Wausau
+        [-89.6560, 44.9573] //la Taqueria
+      ];
+
+      //create a polyline geometry from the path
+      const lunchPolyline = new Polyline ({
+        paths:[lunchPath],
+        spatialReference: {wkid: 4326} //use WGS84 geographic coordinates
+      });
+
+      //define and style for the polyline
+      const lunchSymbol = {
+        type: "simple-line",
+        color: [255, 0, 0, 0.8], //red with 80% opacity
+        width: 3
+      };
+
+      //define the popup template for the polyline
+      const polylinePopupTemplate = {
+        title: "{PolylineName}",
+        content: "{PolylineDescription}"
+      };
+
+      const polylineAttributes = {
+        PolylineName: "Path to Lunch",
+        PolylineDescription: "This is the simplified path from the Wausau campus to the best tacos!"
+      };
+
+      //create graphic from the polyline geometry and symbol
+      const lunchGraphic = new Graphic({
+        geometry: lunchPolyline,
+        symbol: lunchSymbol,
+        attributes: polylineAttributes,
+        popupTemplate: polylinePopupTemplate
+      });
+
+      //add the graphic to the map
+      graphicsLayer.add(lunchGraphic);
+
+      //approximate boundaries of Marathon County Park
+      const parkBoundary = [
+        [-89.655215, 44.959120],
+        [-89.655243, 44.955183],
+        [-89.647271, 44.955242],
+        [-89,647658, 44.958787]
+      ]
+
+      //create a polygon geometry
+      const parkPolygon = new Polygon({
+        rings: [parkBoundary],
+        spatialReference: {wkid: 4326} //use WGS84 geographic coordiantes
+      });
+
+      //define the style for the polygon
+      const parkSymbol = {
+        type: "simple-fill", //autocasts as new SimpleFillSymbol
+        color: [0, 123, 255, 0.1], //light blue with 10% opacity
+        outline: {
+          color: [255, 255, 255],
+          width: 1
+        }
+      };
+
+      //define the popup template for the polygon
+      const polygonPopupTemplate = {
+        title: "{PolygonName}",
+        content: "{PolygonDescription}"
+      };
+
+      const polygonAttributes = {
+        PolygonName: "Marathon County Park",
+        PolygonDescription: "This is a simplified representation of Marathon County Park."
+      };
+
+      //create a graphic from the polygon geometry and symbol
+      const parkGraphic = new Graphic({
+        geometry: parkPolygon,
+        symbol: parkSymbol,
+        attributes: polygonAttributes,
+        popupTemplate: polygonPopupTemplate
+      });
+
+      //add the graphic to the map
+      graphicsLayer.add(parkGraphic);
 
       //Expand widget for basemap gallery
       const bgExpand = new Expand({
