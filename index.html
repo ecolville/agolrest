@@ -170,6 +170,15 @@
       //add the graphic to the map
       graphicsLayer.add(parkGraphic);
 
+      //Create a Search widget instance and add it to the view
+      const searchWidget = new Search({
+        view: view
+      });
+      view.ui.add(searchWidget, {
+        position: "top-left",
+        index: 2
+      });
+
       //Expand widget for basemap gallery
       const bgExpand = new Expand({
         view: view,
@@ -184,15 +193,6 @@
         view: view
       });
       view.ui.add(locate, "top-left");
-
-      //Create a Search widget instance and add it to the view
-      const searchWidget = new Search({
-        view: view
-      });
-      view.ui.add(searchWidget, {
-        position: "top-left",
-        index: 2
-      });
     });
 
 </script>
