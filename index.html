@@ -24,8 +24,9 @@
       "esri/layers/GraphicsLayer", 
       "esri/geometry/Polyline",
       "esri/geometry/Polygon",
-      "esri/layers/FeatureLayer"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer) {
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Editor"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, Editor) {
 
       esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
       const map = new Map({
@@ -270,6 +271,31 @@
       //Add the feature layers to the map
       map.add(airportLayer);
       map.add(helicopterLayer);
+
+      //adding the const for the feature layer
+      const myAirports = new FeatureLayer ({
+        url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/My_Airports/FeatureServer",
+
+        //adding the popup here
+        outFields: ["AirportCode"]
+      });
+
+      //adding the feature layer to the map
+      map.add(myAirports);
+
+      //set the point layer's LayerInfo
+      const pointInfos = {
+        layer: myAirports
+      }
+
+      //begin editor constructor
+      const editor = new Editor({
+        view: view,
+        layerInfos: [pointInfos]
+      }); //end editor constructor
+
+      //add the widget to the view
+      view.ui.add(editor, "top-right");
 
       //Create a Search widget instance and add it to the view
       const searchWidget = new Search({
