@@ -189,6 +189,98 @@
       //add the FeatureLayer to the map
       map.add(puplicSchools);
 
+      //define the popup template for the airport feature layer
+      const featureLayerPopupTemplate_transport = {
+        title: "Transport",
+        content: "<b>Name:</b> {name} <br><b>Class:</b> {fclass} <br><b>District:</b> {district}"
+      }
+
+      //const to make airport labels
+      const airportLabels = {
+        symbol: {
+          type: "text",
+          color: "#FFFFFF",
+          haloColor: "#5E8D74",
+          haloSize: "2px",
+          font: {
+            size: "12px",
+            family: "Noto Sans",
+            style: "italic",
+            weight: "normal"
+          }
+        },
+        labelPlacement: "above-center",
+        labelExpressionInfo: {
+          expression: "$feature.Fac_Name"
+        }
+      };
+
+      //const for helicopter labels
+      const helicopterLabels = {
+        symbol: {
+          type: "text",
+          color: "#FFFFFF",
+          haloColor: "#1A5276",
+          haloSize: "2px",
+          font: {
+            size: 12,
+            family: "Noto Sans",
+            style: "italic",
+            weight: "normal"
+            }
+          },
+          labelPlacement: "above-center",
+          labelExpressionInfo: {
+            expression: "$feature.name"
+          }
+        };
+      
+      //const for icon helicopter
+      const airportRenderer = {
+        type: "simple",
+        symbol: {
+          type: "picture-marker",
+          url: "https://github.com/ecolville/agol/blob/main/outline_local_airport_black_24dp.png",
+          width: "18px",
+          height: "18px"
+        }
+      };
+
+      //const for icon helicopter
+      const helicopterRenderer = {
+        type: "simple",
+        symbol: {
+          type: "picture-marker",
+          url: "https://github.com/ecolville/agol/blob/main/heliport.png",
+          width: "18px",
+          height: "18px" 
+        }
+      };
+
+      //create an airport FeatureLayer from a service 
+      const airportLayer = new FeatureLayer({
+        url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/US_Airports/FeatureServer",
+        renderer: airportRenderer,
+        definitionExpression: "fclass = 'Airport'",
+        outFields: ["name", "fclass", "district"],
+        labelingInfo: [airportLabels],
+        popupTemplate: featureLayerPopupTemplate_transport
+      });
+
+      //create a helicopter FeatureLayer from a service
+      const helicopterLayer = new FeatureLayer ({
+        url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/US_Airports/FeatureServer",
+        renderer: helicopterRenderer,
+        definitionExpression: "fclass = 'Helipad'",
+        outFields: ["name", "fclass", "district"],
+        labelingInfo: [helicopterLabels],
+        popupTemplate: featureLayerPopupTemplate_transport
+      });
+
+      //Add the feature layers to the map
+      map.add(airportLayer);
+      map.add(helicopterLayer);
+
       //Create a Search widget instance and add it to the view
       const searchWidget = new Search({
         view: view
