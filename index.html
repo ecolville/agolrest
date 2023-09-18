@@ -25,8 +25,9 @@
       "esri/geometry/Polyline",
       "esri/geometry/Polygon",
       "esri/layers/FeatureLayer",
-      "esri/widgets/Editor"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, Editor) {
+      "esri/widgets/Editor",
+      "esri/widgets/Legend"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, Editor, Legend) {
 
       esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
       const map = new Map({
@@ -229,13 +230,33 @@
             expression: "$feature.Fac_Name"
           }
         };
+
+      //const for myAirport labels
+      const myAirportLabels = {
+        symbol: {
+          type: "text",
+          color: "#FFFFFF",
+          haloColor: "#8B0000",
+          haloSize: "2px",
+            font: {
+              size: 12,
+              family: "Noto Sans",
+              style: "italic",
+              weight: "normal"
+            }
+          },
+          labelPlacement: "below-center",
+          labelExpressionInfo: {
+            expression: "$feature.AirportCode"
+          }
+      }; 
       
-      //const for icon helicopter
+      //const for icon airport
       const airportRenderer = {
         type: "simple",
         symbol: {
           type: "picture-marker",
-          url: "https://ecolville.github.io/agol/outline_local_airport_black_24dp.png",
+          url: "https://ecolville.github.io/agolrest/outline_local_airport_black_24dp.png",
           width: "18px",
           height: "18px"
         }
@@ -246,9 +267,20 @@
         type: "simple",
         symbol: {
           type: "picture-marker",
-          url: "https://ecolville.github.io/agol/heliport.png",
+          url: "https://ecolville.github.io/agolrest/heliport.png",
           width: "18px",
           height: "18px" 
+        }
+      };
+
+      //const for myAirport icon
+      const myAirportRenderer = {
+        type: "simple",
+        symbol: {
+          type: "picture-marker",
+          url: "https://ecolville.github.io/agolrest/airport.png",
+          width: "18px",
+          height: "18px"
         }
       };
 
@@ -275,6 +307,9 @@
       //adding the const for the feature layer
       const myAirports = new FeatureLayer ({
         url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/My_Airports/FeatureServer",
+        renderer: myAirportRenderer,
+        labelingInfo: [myAirportsLabels], 
+        title: "Airports Visited",
 
         //adding the popup here
         outFields: ["AirportCode"]
