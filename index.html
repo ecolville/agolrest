@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
 
-  <!--adding the modules, API, and map constant needed for a full screen map app-->
+  <!--adding the modules for the graphic, graphic and feature layers, API, and map constant needed for a full screen map app-->
   <script>
     require([
       "esri/config", 
@@ -23,12 +23,13 @@
       "esri/Graphic",  
       "esri/layers/GraphicsLayer", 
       "esri/geometry/Polyline",
-      "esri/geometry/Polygon" 
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon) {
+      "esri/geometry/Polygon",
+      "esri/layers/FeatureLayer"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer) {
 
       esriConfig.apiKey = "AAPKddba40c16f2c479188ee7654064642bcKj2RV3mAHrsiJS_6TRKUzkim46MXbNeE97z3bQn0zq3zyX67A3i8hBg6lEH0Fxl_"
       const map = new Map({
-        basemap: "arcgis-imagery" //basemap layer
+        basemap: "arcgis-light-gray" //basemap layer
       });
 
       //view of Wausau, Wisconsin
@@ -169,6 +170,24 @@
 
       //add the graphic to the map
       graphicsLayer.add(parkGraphic);
+
+      //define a popup template for the feature layer
+      const featureLayerPopupTemplate = {
+        title: "Public School Locations",
+        content: "<b>Name:</b> {NAME} <br><b>School Year:</b> {SCHOOLYEAR}<br>"
+      }
+
+      //adding the Const for the feature layer
+      const puplicSchools = new FeatureLayer({
+        url: https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer,
+
+        //add the popup template to the FeatureLayer
+        outFields: ["NAME", "SCHOOLYEAR"],
+        popupTemplate: featureLayerPopupTemplate
+      });
+
+      //add the FeatureLayer to the map
+      map.add(puplicSchools);
 
       //Create a Search widget instance and add it to the view
       const searchWidget = new Search({
