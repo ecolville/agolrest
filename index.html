@@ -179,6 +179,12 @@
         content: "<b>Name:</b> {NAME} <br><b>School Year:</b> {SCHOOLYEAR}<br>"
       }
 
+      //define the popup template for the editable feature layer (airport)
+      const featureLayerPopupTemplate_airport = {
+          title: "Airport Visited",
+          content: "<b>Airport Code:</b> {AirportCode}"
+        }
+
       //adding the Const for the feature layer
       const publicSchools = new FeatureLayer({
         url: "https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer",
@@ -309,10 +315,12 @@
         url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/My_Airports/FeatureServer",
         renderer: myAirportRenderer,
         labelingInfo: [myAirportLabels], 
-        title: "Airports Visited",
+        
 
         //adding the popup here
-        outFields: ["AirportCode"]
+        popupTemplate: featureLayerPopupTemplate_airport,
+        outFields: ["AirportCode"],
+        title: "Airport Visited",
       });
 
       //adding the feature layer to the map
