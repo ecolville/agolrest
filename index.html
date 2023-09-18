@@ -189,12 +189,6 @@
       //add the FeatureLayer to the map
       map.add(publicSchools);
 
-      //define the popup template for the airport feature layer
-      const featureLayerPopupTemplate_transport = {
-        title: "Transport",
-        content: "<b>Name:</b> {name} <br><b>Class:</b> {fclass} <br><b>District:</b> {district}"
-      }
-
       //const to make airport labels
       const airportLabels = {
         symbol: {
@@ -231,7 +225,7 @@
           },
           labelPlacement: "above-center",
           labelExpressionInfo: {
-            expression: "$feature.name"
+            expression: "$feature.Fac_Name"
           }
         };
       
@@ -262,9 +256,7 @@
         url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/US_Airports/FeatureServer",
         renderer: airportRenderer, //calling the icon
         definitionExpression: "Fac_Type = 'AIRPORT'", //adding sql to filter for airports
-        outFields: ["name", "fclass", "district"],
-        labelingInfo: [airportLabels], //adding the labels
-        popupTemplate: featureLayerPopupTemplate_transport
+        labelingInfo: [airportLabels] //adding the labels
       });
 
       //create a helicopter FeatureLayer from a service
@@ -272,9 +264,7 @@
         url: "https://services1.arcgis.com/kkX9mRo34fTGAX96/arcgis/rest/services/US_Airports/FeatureServer",
         renderer: helicopterRenderer, //calling the icon
         definitionExpression: "Fac_Type = 'HELIPORT'",
-        outFields: ["name", "fclass", "district"],
-        labelingInfo: [helicopterLabels],
-        popupTemplate: featureLayerPopupTemplate_transport
+        labelingInfo: [helicopterLabels]
       });
 
       //Add the feature layers to the map
