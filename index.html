@@ -335,8 +335,9 @@
       const editor = new Editor({
         view: view,
         layerInfos: [pointInfos]
-      }); //end editor constructor
+      }); 
 
+      //expand the editor widget
       const editorExpand = new Expand({
         view: view,
         content: editor,
@@ -345,14 +346,24 @@
         expanded: true
       });
 
-      //add the widget to the view
+      //add the editor widget to the view
       view.ui.add(editorExpand, "top-right");
 
       //Create a Search widget instance and add it to the view
-      const searchWidget = new Search({
+      const search = new Search({
         view: view
       });
-      view.ui.add(searchWidget, {
+
+      //expand the search widget
+      const searchExpand = new Expand({
+        view: view,
+        content: search,
+        expandIconClass: "esri-icon-search",
+        expandTooltip: "Search",
+        expanded: false
+      })
+
+      view.ui.add(searchExpand, {
         position: "top-left",
         index: 2
       });
