@@ -386,11 +386,22 @@
       // Create a Legend widget instance and add it to the view
       const legend = new Legend({
         view: view,
-        layerInfos: [{
-          layer: myAirports},
-          {layer: helicopterLayer},
-          {layer:airportLayer},
-          {layer: publicSchools
+        layerInfos: [
+          {
+            layer: myAirports,
+            title: "Airports Visited"
+        },
+          {
+            layer: helicopterLayer,
+            title: "Helipads"
+          },
+          {
+            layer:airportLayer,
+            title: "Airports"
+          },
+          {
+            layer: publicSchools,
+            title: "Public Schools"
         }]
       });
 
