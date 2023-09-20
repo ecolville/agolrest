@@ -38,7 +38,7 @@
       const view = new MapView({
         map: map,
         center: [-89.646172,  44.948288], // Longitude, latitude 
-        zoom: 13, // Zoom level
+        zoom: 15, // Zoom level
         container: "viewDiv" //Div element
       });
 
@@ -363,6 +363,20 @@
         view: view
       });
       view.ui.add(locate, "top-left");
+
+      // Create a Legend widget instance and add it to the view
+      const legend = new Legend({
+        view: view
+      });
+
+      const legendExpand = new Expand({
+        view: view,
+        content: legend,
+        expandIconClass: "esri-icon-layer-list",
+        expandTooltip: "Legend",
+        expanded: true
+      });
+      view.ui.add(legendExpand, "bottom-left");
     });
 
 </script>
